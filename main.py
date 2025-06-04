@@ -20,8 +20,8 @@ def update_screen():
 p1 = Snake(world, Position(world.W//2, world.H//2 - 1), 0, 3, [200, 50, 0])
 p2 = Snake(world, Position(world.W//2, world.H//2 + 1), 2, 3, [0, 50, 200])
 world.respawn_food()
-speed_decay = 0.999
-speed = 0.20
+speed_decay = 0.850
+speed = 0.15
 
 def turn(event):
     if event.key == pygame.K_UP:
@@ -64,13 +64,14 @@ while running:
     
     if game_state == 0:
         world.update_objs()
-        p1.move()
-        p2.move()
+        r1 = p1.move()
+        r2 = p2.move()
+        if r1 == 1 or r2 == 1:
+            speed *= speed_decay
         game_state = check_deaths()
         update_screen()
         
         sleep(speed)
-        speed *= speed_decay
     else:
         if game_state == 1:
             while len(p2.body) > 0:

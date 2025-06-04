@@ -121,14 +121,17 @@ class Snake:
         self.body.append(SnakePart(self, self.head))
     
     def move(self):
+        result = 0
         self.head = self.world.loop_pos(self.head.move(self.direction))
         if isinstance(self.world.get_tile(self.head), SnakePart):
             self.alive = False
-            return
+            return 2
         if isinstance(self.world.get_tile(self.head), Food):
             self.length += 1
+            result = 1
         self.spawn_head()
         self.last_dir = self.direction
+        return result
         
     def set_dir(self, dir: int):
         if dir == (self.last_dir + 2) % 4:
